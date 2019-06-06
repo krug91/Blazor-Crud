@@ -4,7 +4,10 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # User-specific files
+<<<<<<< HEAD
 *.rsuser
+=======
+>>>>>>> 58279ece60d6c200d93573a3060baf4e224d4ba1
 *.suo
 *.user
 *.userosscache
@@ -20,8 +23,11 @@
 [Rr]eleases/
 x64/
 x86/
+<<<<<<< HEAD
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
+=======
+>>>>>>> 58279ece60d6c200d93573a3060baf4e224d4ba1
 bld/
 [Bb]in/
 [Oo]bj/
@@ -55,6 +61,10 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+<<<<<<< HEAD
+=======
+**/Properties/launchSettings.json
+>>>>>>> 58279ece60d6c200d93573a3060baf4e224d4ba1
 
 # StyleCop
 StyleCopReport.xml
@@ -62,7 +72,11 @@ StyleCopReport.xml
 # Files built by Visual Studio
 *_i.c
 *_p.c
+<<<<<<< HEAD
 *_h.h
+=======
+*_i.h
+>>>>>>> 58279ece60d6c200d93573a3060baf4e224d4ba1
 *.ilk
 *.meta
 *.obj
@@ -79,7 +93,10 @@ StyleCopReport.xml
 *.tlh
 *.tmp
 *.tmp_proj
+<<<<<<< HEAD
 *_wpftmp.csproj
+=======
+>>>>>>> 58279ece60d6c200d93573a3060baf4e224d4ba1
 *.log
 *.vspscc
 *.vssscc
@@ -211,7 +228,11 @@ _pkginfo.txt
 # files ending in .cache can be ignored
 *.[Cc]ache
 # but keep track of directories ending in .cache
+<<<<<<< HEAD
 !?*.[Cc]ache/
+=======
+!*.[Cc]ache/
+>>>>>>> 58279ece60d6c200d93573a3060baf4e224d4ba1
 
 # Others
 ClientBin/
@@ -224,7 +245,11 @@ ClientBin/
 *.publishsettings
 orleans.codegen.cs
 
+<<<<<<< HEAD
 # Including strong name files can present a security risk
+=======
+# Including strong name files can present a security risk 
+>>>>>>> 58279ece60d6c200d93573a3060baf4e224d4ba1
 # (https://github.com/github/gitignore/pull/2483#issue-259490424)
 #*.snk
 
@@ -255,7 +280,10 @@ ServiceFabricBackup/
 *.bim.layout
 *.bim_*.settings
 *.rptproj.rsuser
+<<<<<<< HEAD
 *- Backup*.rdl
+=======
+>>>>>>> 58279ece60d6c200d93573a3060baf4e224d4ba1
 
 # Microsoft Fakes
 FakesAssemblies/
@@ -295,8 +323,13 @@ paket-files/
 .idea/
 *.sln.iml
 
+<<<<<<< HEAD
 # CodeRush personal settings
 .cr/personal
+=======
+# CodeRush
+.cr/
+>>>>>>> 58279ece60d6c200d93573a3060baf4e224d4ba1
 
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
@@ -321,7 +354,11 @@ __pycache__/
 # OpenCover UI analysis results
 OpenCover/
 
+<<<<<<< HEAD
 # Azure Stream Analytics local run output
+=======
+# Azure Stream Analytics local run output 
+>>>>>>> 58279ece60d6c200d93573a3060baf4e224d4ba1
 ASALocalRun/
 
 # MSBuild Binary and Structured Log
@@ -330,6 +367,7 @@ ASALocalRun/
 # NVidia Nsight GPU debugger configuration file
 *.nvuser
 
+<<<<<<< HEAD
 # MFractors (Xamarin productivity tool) working folder
 .mfractor/
 
@@ -338,3 +376,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+=======
+# MFractors (Xamarin productivity tool) working folder 
+.mfractor/
+>>>>>>> 58279ece60d6c200d93573a3060baf4e224d4ba1

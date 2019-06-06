@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace BlazorProject.Services
 {
-    public interface IEmailRepository
+    public interface IEmailRepository : IGenericRepository<Email>
     {
-        IEnumerable<Email> GetEmails();
-        void AddEmail(Email email);
-        Email GetEmail(int id);
-        void DeleteEmail(int id);
-        void UpdateEmail(Email email);
+        
     }
 }

@@ -22,37 +22,37 @@ namespace BlazorProject.Controllers
         }
         
         [HttpGet]
-        public IEnumerable<Email> Get()
+        public async Task<IEnumerable<Email>> Get()
         {
-            return _repo.GetEmails();
+             return await _repo.GetAll();
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Email Get(int id)
+        public async Task<Email> Get(int id)
         {
-            return _repo.GetEmail(id);
+            return await _repo.GetById(id);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody] Email email)
+        public async Task Post([FromBody] Email email)
         {
-            _repo.AddEmail(email);
+            await _repo.Create(email);
         }
 
         // PUT api/<controller>/5
         [HttpPut]
-        public void Put([FromBody]Email email)
+        public async Task Put([FromBody]Email email)
         {
-            _repo.UpdateEmail(email);
+            await _repo.Update(email);
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _repo.DeleteEmail(id);
+            await _repo.Delete(id);
         }
     }
 }

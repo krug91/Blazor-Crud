@@ -22,33 +22,33 @@ namespace BlazorProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public IEnumerable<EmailDetail> GetTags(int id)
+        public async Task<IEnumerable<EmailDetail>> GetTags(int id)
         {
-            return _repo.GetEmailTags(id);
+            return await _repo.GetAll();
         }
 
         [HttpGet("[action]/{id}")]
-        public EmailDetail GetEmailTag(int id)
+        public async Task<EmailDetail> GetEmailTag(int id)
         {
-            return _repo.GetEmailTag(id);
+            return await _repo.GetById(id);
         }
 
         [HttpPost]
-        public void AddTag([FromBody] EmailDetail emailDetail)
+        public async Task AddTag([FromBody] EmailDetail emailDetail)
         {
-            _repo.AddEmailTag(emailDetail);
+            await _repo.Create(emailDetail);
         }
 
         [HttpDelete("{id}")]
-        public void DeleteEmailTag(int id)
+        public async Task DeleteEmailTag(int id)
         {
-            _repo.DeleteEmailTag(id);
+            await _repo.Delete(id);
         }
 
         [HttpPut]
         public void UpdateTag([FromBody] EmailDetail emailDetail)
         {
-            _repo.UdpateEmailTag(emailDetail);
+            _repo.Update(emailDetail);
         }
     }
 }

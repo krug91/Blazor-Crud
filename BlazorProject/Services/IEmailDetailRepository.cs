@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace BlazorProject.Services
 {
-    public interface IEmailDetailRepository
+    public interface IEmailDetailRepository : IGenericRepository<EmailDetail>
     {
-        IEnumerable<EmailDetail>GetEmailTags(int id);
-        EmailDetail GetEmailTag(int id);
-        void AddEmailTag(EmailDetail emailDetail);
-        void DeleteEmailTag(int id);
-        void UdpateEmailTag(EmailDetail emailDetail);
+        
     }
 }

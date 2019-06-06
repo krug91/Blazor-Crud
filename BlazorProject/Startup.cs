@@ -33,6 +33,7 @@ namespace BlazorProject
             services.AddSingleton<HttpClient>();
             services.AddScoped<IEmailRepository, EmailRepository>();
             services.AddScoped<IEmailDetailRepository, EmailDetailRepository>();
+            
 
         }
 

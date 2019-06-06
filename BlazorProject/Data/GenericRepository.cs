@@ -34,7 +34,7 @@ namespace BlazorProject.Data
 
         public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return _context.Set<TEntity>().ToList();
+            return await _context.Set<TEntity>().ToListAsync();
         }
 
         public async Task<TEntity> GetById(int id)

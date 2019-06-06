@@ -1,0 +1,73 @@
+﻿@page "/Emails"
+@inject HttpClient http
+@inject IUriHelper urihelper
+@using BlazorProject.Models
+
+
+
+@if (emails == null)
+{
+    <h2>Loading..</h2>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var em in emails)
+            {
+                <tr>
+                    <td>@em.EmailAddress</td>
+                    <td><a href="/fetchdata" onclick="@(async () => await DeleteEmail(@em.Id))">Delete</a></td>
+                    <td><a href="/EditEmail/@em.Id">Edit Email</a></td>
+                    <td><a href="/AddTag">Add Tag</a></td>
+                    <td><a href="/EditTags/@em.Id">Edit Tag</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input class="" bind="@email.EmailAddress" />
+    <button class="" onclick="@(async () => await AddEmail())">CREATE</button>
+    if(email.EmailAddress == "" || email.EmailAddress == null)
+    {
+        <h3 class="alert-danger">@errormessage</h3>
+    }
+}
+
+
+@functions {
+
+    Email[] emails;
+    Email email = new Email();
+    string errormessage;
+    protected override async Task OnInitAsync()
+    {
+
+        emails = await http.GetJsonAsync<Email[]>("https://localhost:44357/api/Email");
+    }
+
+    private async Task AddEmail()
+    {
+        if(email.EmailAddress == "" || email.EmailAddress == null)
+        {
+            errormessage = "Empty Field";
+        }
+        else
+        { 
+        await http.SendJsonAsync(HttpMethod.Post, "https://localhost:44357/api/Email", email);
+
+        await OnInitAsync();
+        }
+    }
+
+    private async Task DeleteEmail(int id)
+    {
+        await http.DeleteAsync("https://localhost:44357/api/Email/" + id);
+
+        await OnInitAsync();
+    }
+}

@@ -1,0 +1,86 @@
+﻿@page "/EditTags/{id}"
+@inject HttpClient http
+@inject IUriHelper urihelper
+@using BlazorProject.Models
+
+
+
+@if (EmailDetailTags == null)
+{
+    <h1>Loading...</h1>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tag</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tag in EmailDetailTags)
+            {
+                <tr>
+                    <td>@tag.Tag</td>
+                    <td><a href="/Emails" onclick="@(async () => await DeleteTag(@tag.Id))">Delete</a></td>
+                    <td><a href="/EditTag/@tag.Id">Edit Tag</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="align-content-lg-start">
+        <input bind="@Detail.Tag" />
+        <button onclick="@(async () => await AddTag())">Create</button>
+        @if (errormessage != "" || errormessage != null)
+        {
+            <h3 class="alert-danger"> @errormessage</h3>
+        }
+    </div>
+}
+
+
+
+@functions
+{
+    [Parameter]
+    public string id { get; set; }
+
+    string errormessage;
+
+    EmailDetail[] EmailDetailTags;
+
+    EmailDetail Detail = new EmailDetail();
+
+    protected override async Task OnInitAsync()
+    {
+        EmailDetailTags = await http.GetJsonAsync<EmailDetail[]>("https://localhost:44357/api/EmailDetails/" + Convert.ToInt32(id));
+        
+    }
+
+    private async Task DeleteTag(int tagid)
+    {
+        await http.DeleteAsync("https://localhost:44357/api/EmailDetails/" + tagid);
+    }
+
+    private async Task AddTag()
+    {
+        
+
+        if (Detail.Tag == "" || Detail.Tag == null)
+        {
+            errormessage = "Empty Field";
+        }
+        else
+        {
+            Detail.Emailid = Convert.ToInt32(id);
+            await http.SendJsonAsync(HttpMethod.Post, "https://localhost:44357/api/EmailDetails/", Detail);
+            urihelper.NavigateTo("https://localhost:44357/EditTags/" + Convert.ToInt32(id));
+            await OnInitAsync();
+            errormessage = "";
+            
+        }
+
+    }
+
+
+}

@@ -1,0 +1,29 @@
+﻿@page "/EditEmail/{id}"
+@inject HttpClient http
+@inject IUriHelper urihelper
+@using BlazorProject.Models
+
+<h3>Email Address</h3>
+<br />
+<input bind="@email.EmailAddress" />
+<button onclick="@(async () => await UpdateEmail())">save</button>
+
+@functions
+{
+    [Parameter]
+    public string id { get; set; }
+
+    Email email = new Email();
+
+    protected override async Task OnInitAsync()
+    {
+
+        email = await http.GetJsonAsync<Email>("https://localhost:44357/api/Email/" + Convert.ToInt32(id));
+    }
+
+    protected async Task UpdateEmail()
+    {
+        await http.SendJsonAsync(HttpMethod.Put, "https://localhost:44357/api/Email/", email);
+        urihelper.NavigateTo("https://localhost:44357/Emails");
+    }
+}

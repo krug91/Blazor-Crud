@@ -1,0 +1,42 @@
+﻿@page "/EditTag/{id}"
+@inject HttpClient http
+@inject IUriHelper urihelper
+@using BlazorProject.Models
+
+<h3>Edit Tag</h3>
+
+<input bind="@detail.Tag" />
+<button onclick="@(async () => await UpdateTag())" >save</button>
+@if(@detail.Tag == null || detail.Tag == "")
+{
+    <h3 class="alert-danger">@errormessage</h3>
+}
+
+
+@functions
+{ 
+    [Parameter]
+    public string id { get; set; }
+
+    EmailDetail detail = new EmailDetail();
+
+    string errormessage;
+
+    protected override async Task OnInitAsync()
+    {
+        detail = await http.GetJsonAsync<EmailDetail>("https://localhost:44357/api/EmailDetails/GetEmailTag/" + Convert.ToInt32(id));
+    }
+
+    private async Task UpdateTag()
+    {
+        if(detail.Tag == null || detail.Tag == "")
+        {
+            errormessage = "Empty Field";
+        }
+        else
+        { 
+        await http.PutJsonAsync("https://localhost:44357/api/EmailDetails/", detail);
+        urihelper.NavigateTo("https://localhost:44357/EditTags/" + detail.Emailid);
+        }
+    }
+}

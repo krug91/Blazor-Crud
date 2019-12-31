@@ -1,4 +1,5 @@
-﻿using BlazorProject.Models;
+﻿
+using BlazorProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BlazorProject.Services
 {
-    public interface IEmailDetailRepository : IGenericRepository<EmailDetail>
+    public interface IEmailRepository
     {
-        
+        Task Delete(Email email); 
     }
 }

@@ -1,11 +1,9 @@
 ﻿@page "/EditTags/{id}"
-@inject HttpClient http
-@inject IUriHelper urihelper
-@using BlazorProject.Models
 
 
 
-@if (EmailDetailTags == null)
+
+@*@if (EmailDetailTags == null)
 {
     <h1>Loading...</h1>
 }
@@ -36,51 +34,51 @@ else
             <h3 class="alert-danger"> @errormessage</h3>
         }
     </div>
-}
+}*@
 
 
 
 @functions
 {
-    [Parameter]
-    public string id { get; set; }
+    //[Parameter]
+    //public string id { get; set; }
 
-    string errormessage;
+    //string errormessage;
 
-    EmailDetail[] EmailDetailTags;
+    //EmailDetail[] EmailDetailTags;
 
-    EmailDetail Detail = new EmailDetail();
+    //EmailDetail Detail = new EmailDetail();
 
-    protected override async Task OnInitAsync()
-    {
-        EmailDetailTags = await http.GetJsonAsync<EmailDetail[]>("https://localhost:44357/api/EmailDetails/" + Convert.ToInt32(id));
-        
-    }
+    //protected override async Task OnInitAsync()
+    //{
+    //    EmailDetailTags = await http.GetJsonAsync<EmailDetail[]>("https://localhost:44357/api/EmailDetails/" + Convert.ToInt32(id));
 
-    private async Task DeleteTag(int tagid)
-    {
-        await http.DeleteAsync("https://localhost:44357/api/EmailDetails/" + tagid);
-    }
+    //}
 
-    private async Task AddTag()
-    {
-        
+    //private async Task DeleteTag(int tagid)
+    //{
+    //    await http.DeleteAsync("https://localhost:44357/api/EmailDetails/" + tagid);
+    //}
 
-        if (Detail.Tag == "" || Detail.Tag == null)
-        {
-            errormessage = "Empty Field";
-        }
-        else
-        {
-            Detail.Emailid = Convert.ToInt32(id);
-            await http.SendJsonAsync(HttpMethod.Post, "https://localhost:44357/api/EmailDetails/", Detail);
-            urihelper.NavigateTo("https://localhost:44357/EditTags/" + Convert.ToInt32(id));
-            await OnInitAsync();
-            errormessage = "";
-            
-        }
+    //private async Task AddTag()
+    //{
 
-    }
+
+    //    if (Detail.Tag == "" || Detail.Tag == null)
+    //    {
+    //        errormessage = "Empty Field";
+    //    }
+    //    else
+    //    {
+    //        Detail.Emailid = Convert.ToInt32(id);
+    //        await http.SendJsonAsync(HttpMethod.Post, "https://localhost:44357/api/EmailDetails/", Detail);
+    //        urihelper.NavigateTo("https://localhost:44357/EditTags/" + Convert.ToInt32(id));
+    //        await OnInitAsync();
+    //        errormessage = "";
+
+    //    }
+
+}
 
 
 }

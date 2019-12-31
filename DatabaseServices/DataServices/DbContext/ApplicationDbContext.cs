@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace BlazorProject.Models
 {
-    public partial class TaskContext : DbContext
+    public partial class ApplicationDbContext : DbContext
     {
-        public TaskContext()
+        public ApplicationDbContext()
         {
         }
 
-        public TaskContext(DbContextOptions<TaskContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
@@ -22,7 +22,7 @@ namespace BlazorProject.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "3.0.0-preview5.19227.1");
+            modelBuilder.HasAnnotation("ProductVersion", "3.1.0");
 
             modelBuilder.Entity<Email>(entity =>
             {

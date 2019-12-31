@@ -1,5 +1,4 @@
 using System.Net.Http;
-using BlazorProject.Data;
 using BlazorProject.Models;
 using BlazorProject.Services;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using DatabaseServices.DataServices.Implementation;
 namespace BlazorProject
 {
     public class Startup
@@ -29,10 +28,8 @@ namespace BlazorProject
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddDbContext<TaskContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSingleton<HttpClient>();
-            services.AddScoped<IEmailRepository, EmailRepository>();
-            services.AddScoped<IEmailDetailRepository, EmailDetailRepository>();
             
 
         }
@@ -40,6 +37,12 @@ namespace BlazorProject
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                context.Database.Migrate();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

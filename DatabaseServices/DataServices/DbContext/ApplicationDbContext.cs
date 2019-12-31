@@ -6,19 +6,14 @@ namespace BlazorProject.Models
 {
     public partial class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext()
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
 
         public virtual DbSet<Email> Email { get; set; }
         public virtual DbSet<EmailDetail> EmailDetail { get; set; }
-
-        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

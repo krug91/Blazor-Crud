@@ -1,9 +1,13 @@
 ﻿@page "/Emails"
+@inherits OwningComponentBase
+@using Services
+@inject IEmailDataService _emailDataService
 @using BlazorProject.Models
 
 
 
-@if (emails == null)
+
+@if (emails.Count < 0 || emails == null)
 {
     <h2>Loading..</h2>
 }
@@ -28,53 +32,33 @@ else
             }
         </tbody>
     </table>
-    <input class="" bind="@email.EmailAddress" />
-    <button class="btn-link btn">CREATE</button>
-    if(email.EmailAddress == "" || email.EmailAddress == null)
-    {
-        <h3 class="alert-danger">@errormessage</h3>
+    <input type="text" @bind="@email.EmailAddress" />
+    <button type="button" @onclick="AddEmail" class="btn-link btn">CREATE</button>
+
     }
-}
 
 
-@functions {
-
+@code {
     List<Email> emails;
     Email email = new Email();
     string errormessage;
+
     protected override async Task OnInitializedAsync()
     {
-
-        // var aa = await http.GetAsync("https://localhost:44357/api/Email");
-
-        emails = new List<Email>()
-        {
-            new Email
-            {
-                Id = 1,
-                EmailAddress ="test@asd.gr"
-            },
-            new Email
-            {
-                Id = 2,
-                EmailAddress = "Hello@asd.gr"
-            }
-        };
+        emails = new List<Email>();
+        emails = await _emailDataService.LoadAllData();
     }
 
-    //private async Task AddEmail()
-    //{
-    //    if (email.EmailAddress == "" || email.EmailAddress == null)
-    //    {
-    //        errormessage = "Empty Field";
-    //    }
-    //    else
-    //    {
+    private async Task AddEmail()
+    {
+        if (email.EmailAddress == "" || email.EmailAddress == null)
+        {
+            errormessage = "Empty Field";
+            return;
+        }
 
-
-    //        await OnInitAsync();
-    //    }
-    //}
+        var a = _emailDataService.Create(email);
+    }
 
     //private async Task DeleteEmail(int id)
     //{

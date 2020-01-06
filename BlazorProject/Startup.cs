@@ -26,10 +26,10 @@ namespace BlazorProject
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Singleton);
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<IEmailDataService, EmailDataService>();
+            services.AddScoped<IEmailDataService, EmailDataService>();
             
         }
 

@@ -10,6 +10,6 @@ namespace DatabaseServices.DataServices.IServices
         Task<string> Create(Email entity);
         Task<string> Update(Email entity);
         Task<string> Delete(Email entity);
-        Task<List<Email>> LoadAllData();
+        Task<List<Email>> GetAllEmails();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BlazorProject.Models;
 using DatabaseServices.DataServices.IServices;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,38 +12,61 @@ namespace DatabaseServices.DataServices.Implementation
 {
     public class EmailDataService : IEmailDataService
     {
-        private readonly ApplicationDbContext dbContext;
-        public EmailDataService(ApplicationDbContext applicationDb)
+        private readonly IServiceScopeFactory _serviceScopeFactory;
+        public EmailDataService(IServiceScopeFactory serviceScopeFactory)
         {
-            dbContext = applicationDb;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         public async Task<string> Create(Email entity)
         {
-            try
+            using (var scope = _serviceScopeFactory.CreateScope())
             {
-                dbContext.Email.Add(entity);
-                await dbContext.SaveChangesAsync();
-            }
-            catch(Exception ex)
-            {
-                return $"{ex.Message}";
-            }
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                try
+                {
+                    dbContext.Email.Add(entity);
+                    await dbContext.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return $"{ex.Message}";
+                }
 
-            return "Ok";
+                return "Ok";
+            }
         }
 
-        public Task<string> Delete(Email entity)
+        public async Task<string> Delete(Email entity)
         {
-            throw new NotImplementedException();
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                try
+                {
+                    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                    var removeEmail = await dbContext.Email.FirstOrDefaultAsync(x => x.Id == entity.Id);
+                    dbContext.Email.Remove(removeEmail);
+
+                    await dbContext.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return ex.Message;
+                }
+
+                return "Ok";
+            }
         }
 
-        public async Task<List<Email>> LoadAllData()
+        public async Task<List<Email>> GetAllEmails()
         {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var result = await dbContext.Email.AsNoTracking().ToListAsync();
 
-            var result = await dbContext.Email.ToListAsync();
-
-            return result;
+                return result;
+            }
         }
 
         public Task<string> Update(Email entity)

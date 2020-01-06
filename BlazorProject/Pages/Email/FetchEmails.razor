@@ -13,6 +13,10 @@
 }
 else
 {
+    if(!string.IsNullOrWhiteSpace(errormessage))
+    { 
+    <h3 class="alert-danger">@errormessage</h3>
+    }
     <table class="table">
         <thead>
             <tr>
@@ -24,7 +28,7 @@ else
             {
                 <tr>
                     <td>@em.EmailAddress</td>
-                    <td><a href="/fetchdata">Delete</a></td>
+                    <td><button type="button" class="btn btn-link" @onclick="@(() => DeleteEmail(em))">Delete</button></td>
                     <td><a href="/EditEmail/@em.Id">Edit Email</a></td>
                     <td><a href="/AddTag">Add Tag</a></td>
                     <td><a href="/EditTags/@em.Id">Edit Tag</a></td>
@@ -32,8 +36,12 @@ else
             }
         </tbody>
     </table>
-    <input type="text" @bind="@email.EmailAddress" />
-    <button type="button" @onclick="AddEmail" class="btn-link btn">CREATE</button>
+    <EditForm Model="@email" OnValidSubmit="@AddEmail">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+        <input type="text" @bind="@email.EmailAddress" />
+        <button type="submit" class="btn-link btn">CREATE</button>
+    </EditForm>
 
     }
 
@@ -43,27 +51,34 @@ else
     Email email = new Email();
     string errormessage;
 
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnInitializedAsync()
     {
+        errormessage = "";
         emails = new List<Email>();
-        emails = await _emailDataService.LoadAllData();
+        await LoadAllData();
+        email.EmailAddress = null;
     }
 
     private async Task AddEmail()
     {
-        if (email.EmailAddress == "" || email.EmailAddress == null)
-        {
-            errormessage = "Empty Field";
-            return;
-        }
-
         var a = _emailDataService.Create(email);
+        await OnInitializedAsync();
     }
 
-    //private async Task DeleteEmail(int id)
-    //{
-    //    await http.DeleteAsync("https://localhost:44357/api/Email/" + id);
+    protected async Task LoadAllData()
+    {
+        emails = await _emailDataService.GetAllEmails();
+    }
 
-    //    await OnInitAsync();
-    //}
+    private async Task DeleteEmail(Email entity)
+    {
+        errormessage = "";
+        var result = await _emailDataService.Delete(entity);
+        this.StateHasChanged();
+        if(result.ToString().ToLower() != "ok")
+        {
+            errormessage = result;
+        }
+        
+    }
 }

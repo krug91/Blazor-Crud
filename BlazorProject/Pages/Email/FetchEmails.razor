@@ -1,7 +1,6 @@
 ﻿@page "/Emails"
-@inherits OwningComponentBase
+@inherits OwningComponentBase<IEmailDataService>
 @using Services
-@inject IEmailDataService _emailDataService
 @using BlazorProject.Models
 
 
@@ -61,7 +60,7 @@ else
 
     private async Task AddEmail()
     {
-        var a = _emailDataService.Create(email);
+        var a = this.Service.Create(email);
         await OnInitializedAsync();
     }
 
